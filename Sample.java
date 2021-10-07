@@ -111,6 +111,7 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
 
         try {
             Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
+            // deepcode ignore Sqli: Snyk Code ignore testing
             statement.executeUpdate(logQuery);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
