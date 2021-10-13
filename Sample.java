@@ -34,6 +34,7 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
     protected AttackResult injectableQueryConfidentiality(String name, String auth_tan) {
         StringBuffer output = new StringBuffer();
         String query = "SELECT * FROM employees WHERE last_name = '" + name + "' AND auth_tan = '" + auth_tan + "'";
+        String teststring = "";
 
         try (Connection connection = dataSource.getConnection()) {
             try {
