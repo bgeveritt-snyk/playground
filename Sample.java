@@ -116,4 +116,21 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
             System.err.println(e.getMessage());
         }
     }
+    
+    
+    public static void log2(Connection connection, String action) {
+        action = action.replace('\'', '"');
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = sdf.format(cal.getTime());
+
+        String logQuery = "INSERT INTO access_log (time, action) VALUES ('" + time + "', '" + action + "')";
+
+        try {
+            Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
+            statement.executeUpdate(logQuery);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }
