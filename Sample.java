@@ -39,6 +39,7 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
             try {
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 log(connection, query);
+                log2(connection, query);
                 ResultSet results = statement.executeQuery(query);
 
                 if (results.getStatement() != null) {
@@ -102,6 +103,22 @@ public class SqlInjectionLesson8 extends AssignmentEndpoint {
     }
 
     public static void log(Connection connection, String action) {
+        action = action.replace('\'', '"');
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = sdf.format(cal.getTime());
+
+        String logQuery = "INSERT INTO access_log (time, action) VALUES ('" + time + "', '" + action + "')";
+
+        try {
+            Statement statement = connection.createStatement(TYPE_SCROLL_SENSITIVE, CONCUR_UPDATABLE);
+            statement.executeUpdate(logQuery);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    
+    public static void log2(Connection connection, String action) {
         action = action.replace('\'', '"');
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
